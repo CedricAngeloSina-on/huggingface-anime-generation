@@ -5,6 +5,8 @@ import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
 
+import { AppSidebar } from "~/components/app-sidebar";
+import { SidebarProvider } from "~/components/ui/sidebar";
 import { ThemeProvider } from "~/components/theme-switcher";
 
 export const metadata: Metadata = {
@@ -30,7 +32,10 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <main className="w-full">{children}</main>
+            <SidebarProvider>
+              <AppSidebar />
+              <main className="w-full">{children}</main>
+            </SidebarProvider>
           </ThemeProvider>
         </TRPCReactProvider>
       </body>
