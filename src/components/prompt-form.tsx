@@ -1,5 +1,6 @@
 "use client";
 
+import { env } from "~/env";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -29,13 +30,39 @@ const formSchema = z
   })
   .strict();
 
+async function query(data: unknown) {
+  const response = await fetch(
+    "https://api-inference.huggingface.co/models/cagliostrolab/animagine-xl-3.1",
+    {
+      headers: {
+        Authorization: `Bearer ${env.NEXT_PUBLIC_HUGGINGFACE_KEY}`,
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(data),
+    },
+  );
+  const result = await response.blob();
+  return result;
+}
+
 export function PromptForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log("sending request");
+
+    await query(values).then((response) => {
+      // Use the image directly
+      const imageURL = URL.createObjectURL(response);
+      const imageElement = document.createElement("img");
+      imageElement.src = imageURL;
+      // Append the image to your DOM
+      document.body.appendChild(imageElement);
+    });
+
     toast.message("You have submitted the following values", {
       description: JSON.stringify(values, null, 2),
     });
