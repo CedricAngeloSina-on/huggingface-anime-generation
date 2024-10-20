@@ -1,5 +1,9 @@
+import { PromptForm } from "~/components/prompt-form";
 import {
   Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
@@ -13,6 +17,15 @@ export function AppSidebar() {
           <SidebarMenuItem>Generate an Anime Image</SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <PromptForm />
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
     </Sidebar>
   );
 }

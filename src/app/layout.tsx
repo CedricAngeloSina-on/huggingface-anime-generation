@@ -8,6 +8,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { AppSidebar } from "~/components/app-sidebar";
 import { SidebarProvider } from "~/components/ui/sidebar";
 import { ThemeProvider } from "~/components/theme-switcher";
+import { Toaster } from "~/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -35,6 +36,7 @@ export default function RootLayout({
             <SidebarProvider>
               <AppSidebar />
               <main className="w-full">{children}</main>
+              <Toaster />
             </SidebarProvider>
           </ThemeProvider>
         </TRPCReactProvider>
